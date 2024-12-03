@@ -9,7 +9,6 @@
     </div>
 
 
-    <span id="lblExpire" class="text-warning"></span>
     <div class="row">
         @* Iterate over each category in the model and make a header from each category with buttons for add and edit  *@
         @foreach (var cat in Model.CatModels)
@@ -96,6 +95,8 @@
             </div>
         }
     </div>
+    @* warning that shows when 18 min have passed *@
+    <span id="lblExpire" class="text-warning"></span>
 
 </div>
 
