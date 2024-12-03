@@ -1,0 +1,29 @@
+@model LinksApp.Models.CatModel
+<div class="container mt-3">
+   <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>_ADMIN.edit category</h1>
+        <form method="post" asp-action="logout" asp-controller="LogIn">
+             <button type="submit" class="btn btn-warning">Log out</button>
+        </form>
+    </div>
+
+    <span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+
+    <h4>Change the category below</h4>
+    <form method="post" asp-action="submitChangeCat" asp-controller="Admin">
+        <div class="mb-3 mt-10 row">
+            <div class="col-md-6">
+                <label for="textInput" class="form-label">Name</label>
+                <input type="text" asp-for="@Model.name" class="form-control" id="textInput" value="@Model.name">
+                <span asp-validation-for="@Model.name" class="text-warning"></span>
+            </div>
+        </div>
+
+        <input type="hidden" value="@Model.id" name="id" />
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary mx-1">Submit</button>
+            <a href="@Url.Action("Index", "Admin")" class="btn btn-warning mx-1">Cancel</a>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,104 @@
+@model LinksApp.Models.LinkCatModel;
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>_ADMIN.</h1>
+        <form method="post" asp-action="logout" asp-controller="LogIn">
+             <button type="submit" class="btn btn-warning">Log out</button>
+        </form>
+    </div>
+
+
+    <span id="lblExpire" class="text-warning"></span>
+    <div class="row">
+        @* Iterate over each category in the model and make a header from each category with buttons for add and edit  *@
+        @foreach (var cat in Model.CatModels)
+        {
+            <div class="col-12 col-md-3 mb-4">
+                @* <!-- Category Header --> *@
+                <div class="mb-6">
+                    <div class="d-flex align-items-center mb-4">
+                        <!-- Category Header -->
+                        <h4 class="text-black mx-6 d-inline-block" style="text-decoration: underline;">@cat.name</h4>
+
+                        <!-- Add Link Button -->
+                        <form method="post" asp-controller="Admin" asp-action="AddLink" class="d-inline-block mx-1">
+                            <input type="hidden" value="@cat.id" name="id" />
+                            <input type="hidden" value="@cat.name" name="name" />
+                            <button type="submit" class="btn btn-dark text-warning btn-sm" style="padding-left: 0.75rem; padding-right: 0.75rem;">&#x2A2D;</button>
+                        </form>
+
+                        <!-- Edit Category Button -->
+                        <form method="post" asp-controller="Admin" asp-action="EditCat" class="d-inline-block">
+                            <input type="hidden" value="@cat.id" name="catid" />
+                            <input type="hidden" value="@cat.name" name="catname" />
+                            <button type="submit" class="btn btn-dark btn-sm">&#x270F;</button>
+                        </form>
+                    </div>
+                </div>
+
+                @* <!-- Links undereach category --> *@
+                <div class="d-flex flex-column">
+                    @*  Loop through pinned links for the current category, sorting alphabetically by label *@
+                    @foreach (var item in Model.LinkModels
+                   .Where(L => L.category_id == cat.id && L.pinned)
+                   .OrderBy(L => L.label))
+                    {
+                        @*  Display each pinned link with a favicon and hyperlink *@
+                        <div class="d-flex align-items-center mb-2" style="gap: 0.5rem;">
+                            <form method="post" asp-action="DelLink" asp-controller="Admin">
+                                <input type="hidden" value="@item.id" name="linkid">
+                            <button type="submit" class="btn btn-dark btn-sm ">&#128465;</button>
+                            </form>
+                            <form method="post" asp-action="editLink" asp-controller="Admin">
+                                <input type="hidden" value="@item.id" name="linkid">
+                                <button type="submit" class="btn btn-dark btn-sm">&#x270F;</button>
+                            </form>
+
+                            <img src="https://www.google.com/s2/favicons?domain_url=@item.link" alt="link favicon">
+                            <a href="@item.link" target="_blank">@item.label</a>
+
+                        </div>
+                    }
+
+                    @* Insert a separating line if the category contains any pinned links *@
+                    @if (Model.LinkModels.Any(link => link.category_id == cat.id && link.pinned))
+                    {
+                        <hr class="my-2 bg-danger">
+                        <hr class="my-2 bg-danger">
+
+                    }
+                </div>
+
+                @* <!-- Separate block for non-pinned links --> *@
+                <div class="d-flex flex-column">
+                    @* Loop through non-pinned links for the current category, sorting alphabetically by label *@
+                    @foreach (var item in Model.LinkModels
+                   .Where(link => link.category_id == cat.id && !link.pinned)
+                   .OrderBy(link => link.label))
+                    {
+                        @* Display each non-pinned link with a favicon and hyperlink *@
+                        <div class="d-flex align-items-center mb-2" style="gap: 0.5rem;">
+                            <form method="post" asp-action="DelLink" asp-controller="Admin">
+                                <input type="hidden" value="@item.id" name="linkid">
+                                <button type="submit" class="btn btn-dark btn-sm">&#128465;</button>
+                               
+                            </form>
+                             <form method="post" asp-action="editLink" asp-controller="Admin">
+                                <input type="hidden" value="@item.id" name="linkid">
+                                <button type="submit" class="btn btn-dark btn-sm">&#x270F;</button>
+                            </form>                            
+                            <img src="https://www.google.com/s2/favicons?domain_url=@item.link" alt="link favicon">
+                            <a href="@item.link" target="_blank">@item.label</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+@section scripts {
+    <script>startAutoLogout();</script>
+}

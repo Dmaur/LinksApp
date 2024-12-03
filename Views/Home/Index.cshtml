@@ -1,0 +1,55 @@
+﻿@model LinksApp.Models.LinkCatModel;
+
+<div class="container mt-3">
+    <div class="row">
+
+
+        @* Iterate over each category in the model *@
+        @foreach (var cat in Model.CatModels)
+        {
+            <div class="col-12 col-md-3 mb-4">
+                @* <!-- Category Header --> *@
+                <h3 class="text-black mx-2" style="text-decoration: underline;">@cat.name</h3>
+
+                @* <!-- Links underline each category --> *@
+                <div class="d-flex flex-column">
+                    @*  Loop through pinned links for the current category, sorting alphabetically by label *@
+                    @foreach (var item in Model.LinkModels
+                   .Where(L => L.category_id == cat.id && L.pinned)
+                   .OrderBy(L => L.label))
+                    {
+                        @*  Display each pinned link with a favicon and hyperlink *@
+                        <div class="d-flex align-items-center mb-2" style="gap: 0.5rem;">
+                            <img src="https://www.google.com/s2/favicons?domain_url=@item.link" alt="link favicon">
+                            <a href="@item.link" target="_blank">@item.label</a>
+                        </div>
+                    }
+
+                    @* Insert a separating line if the category contains any pinned links *@
+                    @if (Model.LinkModels.Any(link => link.category_id == cat.id && link.pinned))
+                    {
+                        <hr class="my-2 bg-danger">
+                    }
+                </div>
+
+                @* <!-- Separate block for non-pinned links --> *@
+                <div class="d-flex flex-column">
+                    @* Loop through non-pinned links for the current category, sorting alphabetically by label *@
+                    @foreach (var item in Model.LinkModels
+                   .Where(link => link.category_id == cat.id && !link.pinned)
+                   .OrderBy(link => link.label))
+                    {
+                        @* Display each non-pinned link with a favicon and hyperlink *@
+                        <div class="d-flex align-items-center mb-2" style="gap: 0.5rem;">
+                            <img src="https://www.google.com/s2/favicons?domain_url=@item.link" alt="link favicon">
+                            <a href="@item.link" target="_blank">@item.label</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <form method="post">
+        <input type="submit" class="btn btn-warning" value="Log In" asp-controller="Home" asp-action="login">
+    </form>
+</div>

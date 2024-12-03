@@ -1,0 +1,24 @@
+﻿body {
+  background-color: cadetblue;
+  margin-top: 30px;
+  color:bisque;
+}
+
+
+a{
+  color: inherit; 
+  text-decoration: none; 
+}
+
+#headerBox{
+  background-color: bisque;
+  width: 100%;
+  border-radius: 25px;
+}
+
+#deletecheck{
+  background-color: bisque;
+  border-radius: 25px;
+  height: 2rem;
+  color: black;
+}

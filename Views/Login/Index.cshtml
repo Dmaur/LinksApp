@@ -1,0 +1,29 @@
+<form asp-controller="Login" asp-action="Submit">
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col">
+                <h2>Login</h2>
+                Please enter your Username and Password...
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5 mt-2">
+                <div class="mb-3">
+                    <label for="txtUserName">Username:</label>
+                    <input type="text" name="myUsername" class="form-control" maxlength="10" />
+                </div>
+                <div class="mb-3">
+                    <label for="txtPassword">Password:</label>
+                    <input type="password" name="myPassword" class="form-control" maxlength="10" />
+                </div>
+                <span class="text-warning" style="margin-left:5px;">@ViewData["feedback"]</span>
+                <div class="mb-3">
+
+                    <input type="submit" text="Submit" class="btn btn-warning" />
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-warning mx-1">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

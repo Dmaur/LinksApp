@@ -1,0 +1,61 @@
+@model LinksApp.Models.LinkCatModel;
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>_ADMIN.edit link</h1>
+       <form method="post" asp-action="logout" asp-controller="LogIn">
+             <button type="submit" class="btn btn-warning">Log out</button>
+        </form>
+    </div>
+
+    <span id="lblExpire" class="text-warning" style="margin-left:10px"></span>
+    <form method="post" asp-action="submitEditLink" asp-controller="Admin">
+        <div class="col-3 mb-3">
+            <label for="dropDown" class="form-label">Select a link category</label>
+            <select asp-for="@Model.linkModel.category_id" class="form-select">
+                @foreach (var cat in Model.CatModels)
+                {
+                    <option value="@cat.id" name="id"> @cat.name</option>
+                }
+            </select>
+            <input type="hidden" asp-for="@Model.linkModel.id" value="@Model.linkModel.id">
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-6">
+                <label for="textInput" class="form-label">Enter new link label</label>
+                <input type="text" asp-for="@Model.linkModel.label" value="@Model.linkModel.label" class="form-control"
+                    id="textInput" placeholder="@Model.linkModel.label">
+                <span asp-validation-for="@Model.linkModel.label" class="text-warning"></span>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-6">
+                <label for="urlInput" class="form-label">Enter new url</em></label>
+                <input type="url" asp-for="@Model.linkModel.link" class="form-control" id="urlInput"
+                    placeholder="https://example.com">
+                <span asp-validation-for="@Model.linkModel.link" class="text-warning"></span>
+            </div>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" asp-for="@Model.linkModel.pinned" yid="checkBox">
+            <label class="form-check-label" for="checkBox">Pin this link</label>
+        </div>
+        <input type="hidden" value="@Model.linkModel.category_id" asp-for="@Model.linkModel.category_id">
+
+
+
+
+
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary mx-1">Submit</button>
+            <a href="@Url.Action("Index", "Admin")" class="btn btn-warning mx-1">Cancel</a>
+        </div>
+    </form>
+
+
+
+
+</div>
